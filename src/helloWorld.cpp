@@ -12,7 +12,7 @@ using namespace helloWorld;
 
 void helloWorld::helloWorld::printhelloWorld(void)
 {
-	trace_puts("Hello World");;
+	trace_puts("Hello World");
 }
 
 
