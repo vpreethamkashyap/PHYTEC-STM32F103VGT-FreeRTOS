@@ -28,6 +28,7 @@
 // ----------------------------------------------------------------------------
 /* Kernel includes. */
 /* Kernel includes. */
+#include "helloWorld.h"
 #include "FreeRTOS.h" /* Must come first. */
 #include "task.h"     /* RTOS task related API prototypes. */
 #include "queue.h"    /* RTOS queue related API prototypes. */
@@ -36,10 +37,10 @@
 
 /* STM32 Library includes. */
 #include "stm32f10x.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "diag/Trace.h"
+
 
 /* Priorities at which the tasks are created.  The event semaphore task is
 given the maximum priority of ( configMAX_PRIORITIES - 1 ) to ensure it runs as
@@ -61,11 +62,12 @@ has a higher priority than the send task, so will remove items as they are added
 meaning the send task should always find the queue empty. */
 #define mainQUEUE_LENGTH                    ( 1 )
 
+extern "C"
+{
 void vApplicationMallocFailedHook( void );
 void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName );
 void vApplicationIdleHook( void );
-
-
+}
 
 /*
  * Setup the NVIC, LED outputs, and button inputs.
@@ -128,9 +130,15 @@ static volatile uint32_t ulCountOfReceivedSemaphores = 0;
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
+using namespace helloWorld;
+helloWorld::helloWorld obj;
+
 int
 main(int argc, char* argv[])
 {
+
+	obj.printhelloWorld();
+
 	TimerHandle_t xExampleSoftwareTimer = NULL;
 
 	// At this stage the system clock should have already been configured
@@ -236,6 +244,9 @@ main(int argc, char* argv[])
 
 static void vExampleTimerCallback( TimerHandle_t xTimer )
 {
+	obj.printhelloWorld();
+
+	(void)xTimer;
 	/* The timer has expired.  Count the number of times this happens.  The
     timer that calls this function is an auto re-load timer, so it will
     execute periodically. */
